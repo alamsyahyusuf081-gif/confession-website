@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rakaa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0d0d0d;
+      --card-bg: #141414;
+      --text-main: #f0f0f0;
+      --text-muted: #a0a0a0;
+      --accent-pink: #f4b8e4;
+      --accent-pink-soft: rgba(244, 184, 228, 0.15);
+      --accent-pink-border: rgba(244, 184, 228, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Pattern Pink Soft di Background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(244, 184, 228, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(244, 184, 228, 0.05) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Container Utama */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      min-height: 480px;
+      background: var(--card-bg);
+      border: 1px solid var(--accent-pink-border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(244, 184, 228, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Sparkles & Floating Elements */
+    .sparkle {
+      position: absolute;
+      color: var(--accent-pink);
+      font-size: 12px;
+      opacity: 0.4;
+      pointer-events: none;
+      animation: floatSparkle 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatSparkle {
+      0% { transform: translateY(0) scale(0.8); opacity: 0.2; }
+      100% { transform: translateY(-10px) scale(1.2); opacity: 0.6; }
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .to-gita-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+
+    .to-gita {
+      font-size: 0.95rem;
+      color: var(--accent-pink);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* Animasi Bunga Mekar Halus */
+    .flower-icon {
+      display: inline-block;
+      color: var(--accent-pink);
+      font-size: 0.9rem;
+      animation: flowerBloom 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes flowerBloom {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+    }
+
+    /* Page Content & Animations */
+    .page {
+      display: none;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      flex-grow: 1;
+    }
+
+    .page.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    .story-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-main);
+      font-weight: 300;
+      margin-bottom: 16px;
+      /* Animasi teks fade in perlahan */
+      animation: fadeInText 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeInText {
+      0% { opacity: 0; transform: translateY(8deg); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Controls & Navigation */
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .page-indicator {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .btn {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--accent-pink-border);
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background: var(--accent-pink-soft);
+      border-color: var(--accent-pink);
+      color: #fff;
+    }
+
+    /* Section Pilihan Akhir */
+    .question-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 24px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn-option {
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-option:hover {
+      background: var(--accent-pink-soft);
+      border-color: var(--accent-pink);
+    }
+
+    .response-message {
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--accent-pink);
+      display: none;
+      animation: fadeInText 1.5s ease-in-out forwards;
+      padding: 10px 0;
+    }
+
+    /* Footer */
+    footer {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Audio Banner Controls */
+    .audio-control {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid var(--accent-pink-border);
+      border-radius: 30px;
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+    }
+
+    .audio-control:hover {
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Element Dekorasi Sparkle -->
+  <div class="sparkle" style="top: 10%; left: 8%;">✦</div>
+  <div class="sparkle" style="top: 25%; right: 10%; animation-delay: 1s;">✧</div>
+  <div class="sparkle" style="bottom: 15%; left: 12%; animation-delay: 2s;">✦</div>
+  <div class="sparkle" style="bottom: 20%; right: 7%; animation-delay: 1.5s;">•</div>
+
+  <div class="container">
+    <header>
+      <h1>Rakaa</h1>
+      <div class="to-gita-wrapper">
+        <span class="flower-icon">🌸</span>
+        <span class="to-gita">Untuk Gita</span>
+        <span class="flower-icon">🌸</span>
+      </div>
+    </header>
+
+    <!-- Slide 1 -->
+    <div class="page active" id="page-1">
+      <p class="story-text">
+        Hai Git. Semoga kamu lagi santai pas membuka halaman ini.
+      </p>
+      <p class="story-text">
+        Sebenarnya tulisan ini bukan sesuatu yang heboh atau bermaksud bikin kamu bingung. Aku cuma mau nyampein beberapa hal yang udah cukup lama tersimpan di kepala, dan rasanya bakal lebih tenang kalau udah disampein secara jujur.
+      </p>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="page" id="page-2">
+      <p class="story-text">
+        Kalau diingat-ingat lagi, rasa suka ini nggak muncul secara tiba-tiba atau dramatis. Semua mengalir gitu aja.
+      </p>
+      <p class="story-text">
+        Dari cara kamu ngobrol, cara kamu menanggapin hal-hal kecil, sampai gimana hadirnya kamu sering bikin hari yang biasa aja jadi terasa lebih mendingan. Semakin diperhatikan, semakin aku sadar kalau kamu memang seistimewa itu di mataku.
+      </p>
+    </div>
+
+    <!-- Slide 3 (Titik Mulai Musik Diputar) -->
+    <div class="page" id="page-3">
+      <p class="story-text">
+        Aku paham betul kalau setiap orang punya ruang dan nyamannya masing-masing. Makanya, dari awal aku nulis ini, aku nggak ada niat sedikit pun buat bikin kamu merasa terbebani atau merasa harus ngasih jawaban tertentu.
+      </p>
+      <p class="story-text">
+        Niat aku murni cuma mau jujur sama perasaan sendiri. Punya rasa suka ke kamu adalah hal yang menyenangkan buat aku, dan aku bersyukur pernah merasakan ini.
+      </p>
+    </div>
+
+    <!-- Slide 4 (Pertanyaan Akhir) -->
+    <div class="page" id="page-4">
+      <div id="interactive-section">
+        <p class="question-title">"Jadi... setelah baca semuanya, kira-kira gimana?"</p>
+        <div class="options-container">
+          <button class="btn-option" onclick="selectOption(1)">Boleh kenal lebih dekat</button>
+          <button class="btn-option" onclick="selectOption(2)">Kasih waktu dulu</button>
+        </div>
+      </div>
+
+      <div class="response-message" id="response-1">
+        Terima kasih ya, Git. Senang banget dengarnya. Pelan-pelan aja, nggak usah terburu-buru. Yuk, kita mulai obrolan biasa lagi seperti biasa.
+      </div>
+
+      <div class="response-message" id="response-2">
+        Sama sekali nggak masalah, Git. Ambil waktu sebanyak yang kamu butuhin ya. Apapun itu, aku bakal tetap hargai dan seneng bisa kenal kamu.
+      </div>
+    </div>
+
+    <!-- Controls Navigasi -->
+    <div class="nav-wrapper">
+      <span class="page-indicator" id="page-num">1 / 4</span>
+      <button class="btn" id="next-btn" onclick="nextPage()">
+        Lanjut <span>→</span>
+      </button>
+    </div>
+
+    <footer>
+      — Rakaa
+    </footer>
+  </div>
+
+  <!-- Audio element (Bagian chorus / emosional diset mulai dari detik ke-48) -->
+  <audio id="bg-music" preload="auto">
+    <!-- Menggunakan link audio preview Backstreet Boys - Shape of My Heart -->
+    <source src="https://cdns-preview-d.dzcdn.net/stream/c-d38d0e513a0c507a2c07a38b5d32be9a-7.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Tombol Audio Cadangan -->
+  <div class="audio-control" id="audio-toggle" onclick="toggleAudio()">
+    <span id="audio-icon">🎵</span> <span id="audio-status">Shape of My Heart</span>
+  </div>
+
+  <script>
+    let currentPage = 1;
+    const totalPages = 4;
+    const audio = document.getElementById('bg-music');
+    let hasPlayedAudio = false;
+
+    // Set waktu mulai audio ke detik 48 (bagian chorus/emosional)
+    const EMOTIONAL_START_TIME = 48;
+
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const activePage = document.getElementById(`page-${page}`);
+      activePage.classList.add('active');
+
+      document.getElementById('page-num').innerText = `${page} / ${totalPages}`;
+
+      // Memutar lagu secara otomatis ketika masuk ke Halaman 3 (bagian emosional)
+      if (page === 3 && !hasPlayedAudio) {
+        playEmotionalMusic();
+      }
+
+      // Sembunyikan tombol 'Lanjut' pada halaman terakhir
+      if (page === totalPages) {
+        document.getElementById('next-btn').style.display = 'none';
+      } else {
+        document.getElementById('next-btn').style.display = 'inline-flex';
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    }
+
+    function playEmotionalMusic() {
+      audio.currentTime = EMOTIONAL_START_TIME;
+      audio.play().then(() => {
+        hasPlayedAudio = true;
+        document.getElementById('audio-status').innerText = 'Shape of My Heart (Playing)';
+      }).catch(error => {
+        // Jika browser memblokir autoplay, audio siap diputar lewat klik pengguna
+        console.log("Autoplay diblokir browser, pengguna bisa menekan tombol musik di kanan bawah.");
+        document.getElementById('audio-status').innerText = 'Klik untuk putar musik 🎵';
+      });
+    }
+
+    function toggleAudio() {
+      if (audio.paused) {
+        if (audio.currentTime < EMOTIONAL_START_TIME) {
+          audio.currentTime = EMOTIONAL_START_TIME;
+        }
+        audio.play();
+        document.getElementById('audio-status').innerText = 'Shape of My Heart (Playing)';
+        hasPlayedAudio = true;
+      } else {
+        audio.pause();
+        document.getElementById('audio-status').innerText = 'Musik Di-pause';
+      }
+    }
+
+    function selectOption(option) {
+      document.getElementById('interactive-section').style.display = 'none';
+      if (option === 1) {
+        document.getElementById('response-1').style.display = 'block';
+      } else if (option === 2) {
+        document.getElementById('response-2').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
