@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rakaa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Element Dekorasi Sparkle -->
+  <div class="sparkle" style="top: 10%; left: 8%;">✦</div>
+  <div class="sparkle" style="top: 25%; right: 10%; animation-delay: 1s;">✧</div>
+  <div class="sparkle" style="bottom: 15%; left: 12%; animation-delay: 2s;">✦</div>
+  <div class="sparkle" style="bottom: 20%; right: 7%; animation-delay: 1.5s;">•</div>
+
+  <div class="container">
+    <header>
+      <h1>Rakaa</h1>
+      <div class="to-gita-wrapper">
+        <span class="flower-icon">🌸</span>
+        <span class="to-gita">Untuk Gita</span>
+        <span class="flower-icon">🌸</span>
+      </div>
+    </header>
+
+    <!-- Slide 1 -->
+    <div class="page active" id="page-1">
+      <p class="story-text">
+        Hai Git. Semoga kamu lagi santai pas membuka halaman ini.
+      </p>
+      <p class="story-text">
+        Sebenarnya tulisan ini bukan sesuatu yang heboh atau bermaksud bikin kamu bingung. Aku cuma mau nyampein beberapa hal yang udah cukup lama tersimpan di kepala, dan rasanya bakal lebih tenang kalau udah disampein secara jujur.
+      </p>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="page" id="page-2">
+      <p class="story-text">
+        Kalau diingat-ingat lagi, rasa suka ini nggak muncul secara tiba-tiba atau dramatis. Semua mengalir gitu aja.
+      </p>
+      <p class="story-text">
+        Dari cara kamu ngobrol, cara kamu menanggapin hal-hal kecil, sampai gimana hadirnya kamu sering bikin hari yang biasa aja jadi terasa lebih mendingan. Semakin diperhatikan, semakin aku sadar kalau kamu memang seistimewa itu di mataku.
+      </p>
+    </div>
+
+    <!-- Slide 3 (Titik Mulai Musik Diputar) -->
+    <div class="page" id="page-3">
+      <p class="story-text">
+        Aku paham betul kalau setiap orang punya ruang dan nyamannya masing-masing. Makanya, dari awal aku nulis ini, aku nggak ada niat sedikit pun buat bikin kamu merasa terbebani atau merasa harus ngasih jawaban tertentu.
+      </p>
+      <p class="story-text">
+        Niat aku murni cuma mau jujur sama perasaan sendiri. Punya rasa suka ke kamu adalah hal yang menyenangkan buat aku, dan aku bersyukur pernah merasakan ini.
+      </p>
+    </div>
+
+    <!-- Slide 4 (Pertanyaan Akhir) -->
+    <div class="page" id="page-4">
+      <div id="interactive-section">
+        <p class="question-title">"Jadi... setelah baca semuanya, kira-kira gimana?"</p>
+        <div class="options-container">
+          <button class="btn-option" onclick="selectOption(1)">Boleh kenal lebih dekat</button>
+          <button class="btn-option" onclick="selectOption(2)">Kasih waktu dulu</button>
+        </div>
+      </div>
+
+      <div class="response-message" id="response-1">
+        Terima kasih ya, Git. Senang banget dengarnya. Pelan-pelan aja, nggak usah terburu-buru. Yuk, kita mulai obrolan biasa lagi seperti biasa.
+      </div>
+
+      <div class="response-message" id="response-2">
+        Sama sekali nggak masalah, Git. Ambil waktu sebanyak yang kamu butuhin ya. Apapun itu, aku bakal tetap hargai dan seneng bisa kenal kamu.
+      </div>
+    </div>
+
+    <!-- Controls Navigasi -->
+    <div class="nav-wrapper">
+      <span class="page-indicator" id="page-num">1 / 4</span>
+      <button class="btn" id="next-btn" onclick="nextPage()">
+        Lanjut <span>→</span>
+      </button>
+    </div>
+
+    <footer>
+      — Rakaa
+    </footer>
+  </div>
+
+  <!-- Audio element (Bagian chorus / emosional diset mulai dari detik ke-48) -->
+  <audio id="bg-music" preload="auto">
+    <source src="https://cdns-preview-d.dzcdn.net/stream/c-d38d0e513a0c507a2c07a38b5d32be9a-7.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Tombol Audio Cadangan -->
+  <div class="audio-control" id="audio-toggle" onclick="toggleAudio()">
+    <span id="audio-icon">🎵</span> <span id="audio-status">Shape of My Heart</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
